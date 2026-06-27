@@ -42,17 +42,17 @@ void control_output(uint8_t *control_reg, uint8_t fan_enable, uint8_t alarm_enab
     }
 
     if(fan_enable == 1){
-        *control_reg |= (1 << 0); // Set bit 0 to 1
+        *control_reg |= (1 << 0); 
     } 
     else if(fan_enable == 0){
-        *control_reg &= ~(1 << 0); // Clear bit 0 to 0
+        *control_reg &= ~(1 << 0); 
     }
 
     if(alarm_enable == 1){
-        *control_reg |= (1 << 1); // Set bit 1 to 1
+        *control_reg |= (1 << 1); 
     } 
     else if(alarm_enable == 0){
-        *control_reg &= ~(1 << 1); // Clear bit 1 to 0
+        *control_reg &= ~(1 << 1); 
     }
 
     

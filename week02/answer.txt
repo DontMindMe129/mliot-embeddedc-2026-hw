@@ -1,0 +1,28 @@
+===========================================================
+PHẦN TỰ LUẬN WEEK02
+===========================================================
+
+#Task 4:
+-----------------------------------------------------------
+##4.2
+
+Địa chỉ của các biến:
+BIKE_MODEL (ROM/.rodata):   00007FF7F30C50B0 => Vì BIKE_MODEL là chuỗi kí tự nên được lưu trên .rodata/ROM.
+total_odometer (RAM/.bss):  00007FF7F30C9080 => Vì total_odometer là biến toàn cục được khởi tạo bằng 0 nên nằm trên .bss/RAM.
+current_speed (RAM/Stack):  00000000005FFE68 => Vì current_speed là biến cục bộ nên nằm trên Stack/RAM.
+
+##4.3
+
+Khi kích hoạt hàm crash_simulation, đối với chương trình trên máy tính (được quản lí bởi hệ điều hành), chương trình sẽ bị dừng ở vị trí của hàm đệ quy crash_simulation() kèm
+thông báo: "Exception has occurred. Segmentation fault". Còn khi chạy trên một vi điều khiển thực tế, nếu là các dòng cũ thì MCU sẽ không có khả năng nhận ra Stack Overflow, 
+khi đó dữ liệu bên trong RAM sẽ bị sai lệch, các vùng .data, .bss sẽ bị ghi đè. Còn nếu là trên các dòng hiện đại hơn như là ARM Cortex-M thì sẽ có một hàm ngắt được kích hoạt
+khi xảy ra Stack Overflow là HardFault_Handler, mặc định hàm này sẽ nhốt CPU vào trong một vòng lặp While(1) vĩnh viễn.
+
+#Task 5:
+
+Cách 1: uint16_t trip_history[20000] = {0}: Vì đây là một biến toàn cục được khởi tạo = 0 nên sẽ được ghi trực tiếp vào .bss trên RAM mà không cần phải thông qua ROM
+
+Cách 2: uint16_t trip_history[20000] = {1, 2, 3}: Vì đây là một biến toàn cục khác 0 (đã được khởi tạo) nên đầu tiên nó phải được khởi tạo trên ROM rồi sau đó mới được mang xuống
+.data trên RAM, vì thế sẽ gây ra lỗi khi bộ nhớ ROM không đủ.
+
+
